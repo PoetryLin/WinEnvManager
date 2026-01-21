@@ -1,84 +1,80 @@
-# Windows 环境变量管理器 (Windows Env Manager)
+# Windows Environment Manager
 
-这是一个基于 Web 技术的本地应用程序，用于简便地管理 Windows 系统的环境变量（用户变量和系统变量）。
+<p align="center">
+  <img src="resources/icon.png" alt="Windows Environment Manager Logo" width="128" height="128" />
+</p>
 
-## 🚀 功能特点
+<p align="center">
+  A modern, secure, and user-friendly application to manage Windows Environment Variables. Built with Electron, React, and TailwindCSS.
+</p>
 
-- **查看变量**：清晰展示当前用户 (User) 和系统 (System/Machine) 的所有环境变量。
-- **搜索过滤**：实时搜索变量名或变量值。
-- **新增/编辑**：轻松创建新的环境变量或修改现有变量。
-- **删除变量**：安全删除不再需要的变量。
-- **现代化 UI**：基于 React 和 TailwindCSS 构建，支持暗黑模式 (Dark Mode)。
+---
 
-## 📂 项目结构
+## 🚀 Features
 
-```
-huan-jing-bian-liang/
-├── server.js               # 后端入口 (Node.js/Express) - 处理系统调用
-├── package.json            # 后端依赖配置
-├── implementation_plan.md  # 项目开发计划文档
-├── README.md               # 项目说明文档
-└── frontend/               # 前端项目 (React + Vite)
-    ├── index.html          # 前端入口 HTML
-    ├── package.json        # 前端依赖配置
-    ├── postcss.config.js   # CSS 处理配置
-    ├── tailwind.config.js  # TailwindCSS 配置
-    ├── vite.config.js      # Vite 构建工具配置
-    └── src/
-        ├── App.jsx         # 主应用组件
-        ├── api.js          # 后端 API 接口封装
-        ├── index.css       # 全局样式 (Tailwind)
-        └── components/     # UI 组件
-            ├── EditModal.jsx     # 编辑/新增弹窗
-            └── VariableTable.jsx # 变量列表表格
-```
+- **Scope Management**: Separately view and manage **User** and **System** environment variables.
+- **Modern UI**: Clean interface built with **React 19** and **TailwindCSS v4**, featuring glassmorphism effects and smooth animations.
+- **Dark Mode**: Fully supported dark theme that respects system settings or manual toggle.
+- **Search & Filter**: Real-time searching by variable name or value.
+- **Safety First**: Custom confirmation dialogs and "Admin Only" indicators for system variables.
+- **Internationalization**: Native support for **English** and **Simplified Chinese**.
+- **Edit Modes**: Switch between simple text editing and list-based editing (for PATH variables).
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-- **Frontend**: React 19, Vite, TailwindCSS v4, Lucide React (图标)
-- **Backend**: Node.js, Express
-- **System Interaction**: PowerShell (通过 Node.js `child_process`)
+- **Core**: [Electron](https://www.electronjs.org/)
+- **Frontend**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Styling**: [TailwindCSS](https://tailwindcss.com/) + [Lucide React](https://lucide.dev/)
+- **Backend / API**: Node.js + Express (Localhost server for system operations)
 
-## 🏃 如何运行
+## 📦 Installation
 
-本项目包含前端和后端两个部分，需要同时启动。
+To run this project locally, ensure you have **Node.js** (v16+) installed.
 
-### 1. 安装依赖
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/win-env-manager.git
+   cd win-env-manager
+   ```
 
-在项目根目录和 frontend 目录下分别安装依赖：
+2. **Install Dependencies**
+   Run the convenience script to install dependencies for both root (backend) and frontend:
+   ```bash
+   npm run install-all
+   ```
 
+## 💻 Usage
+
+### Development Mode
+To start the application in development mode (with hot-reload):
 ```bash
-# 根目录 (后端)
-npm install
-
-# 前端目录
-cd frontend
-npm install
+npm run electron:dev
 ```
+> **Note**: To modify **System Variables**, you must run your terminal/IDE as **Administrator**.
 
-### 2. 启动后端服务
-
-后端服务运行在 port 3000。
-
+### Build for Production
+To create a Windows installer/executable (`.exe`):
 ```bash
-# 在根目录下
-node server.js
+npm run electron:build
+```
+The output files will be generated in the `dist-electron` directory.
+
+## 📂 Project Structure
+
+```
+win-env-manager/
+├── electron-main.js      # Electron Main Process
+├── server.js             # Local Backend API (Express)
+├── resources/            # Static assets (Icon)
+├── frontend/             # React Application
+│   ├── src/
+│   │   ├── components/   # UI Components (Modals, Toast, Table)
+│   │   ├── contexts/     # State & Logic (Language, etc)
+│   │   └── locales/      # Translation files
+│   └── ...
+└── ...
 ```
 
-> **注意**：如果要修改**系统变量 (System/Machine Scope)**，请以**管理员身份 (Administrator)** 运行此命令（打开 CMD/PowerShell 时选择“以管理员身份运行”）。修改用户变量无需特殊权限。
+## 📄 License
 
-### 3. 启动前端界面
-
-前端开发服务器运行在 port 5173。
-
-```bash
-# 在 frontend 目录下
-npm run dev
-```
-
-启动后，打开浏览器访问 [http://localhost:5173](http://localhost:5173) 即可使用。
-
-## ⚠️ 注意事项
-
-- **权限**：Node.js 后端通过 PowerShell 执行 `[Environment]::SetEnvironmentVariable`。若遇到权限错误，请确保终端具有管理员权限。
-- **生效时间**：修改环境变量后，通常立即在该应用中生效。但对于其他正在运行的应用程序（如 CMD、IDEA 等），可能需要重启这些应用才能获取到最新的环境变量。
+This project is licensed under the ISC License.

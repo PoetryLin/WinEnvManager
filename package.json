@@ -1,9 +1,36 @@
 {
-  "name": "huan-jing-bian-liang",
+  "name": "win-env-manager",
+  "productName": "Windows Environment Manager",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "electron-main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-all": "npm install && cd frontend && npm install",
+    "electron:dev": "concurrently \"node server.js\" \"cd frontend && npm run dev\" \"wait-on tcp:5173 && electron .\"",
+    "electron:build": "cd frontend && npm run build && cd .. && electron-builder"
+  },
+  "build": {
+    "appId": "com.winenvmanager.app",
+    "icon": "resources/icon.png",
+    "win": {
+      "target": [
+        "nsis",
+        "portable",
+        "zip"
+      ],
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "files": [
+      "electron-main.js",
+      "server.js",
+      "package.json",
+      "resources/**/*",
+      "node_modules/**/*",
+      "frontend/dist/**/*"
+    ],
+    "directories": {
+      "output": "dist-electron"
+    }
   },
   "keywords": [],
   "author": "",
@@ -13,5 +40,11 @@
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.4.0",
+    "wait-on": "^9.0.3"
   }
 }

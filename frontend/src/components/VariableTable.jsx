@@ -1,23 +1,26 @@
 import React from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const VariableTable = ({ variables, onEdit, onDelete }) => {
+    const { t } = useLanguage();
+
     return (
         <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/4">
-                            变量名 (Name)
+                            {t('tableName')}
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/2">
-                            值 (Value)
+                            {t('tableValue')}
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-24">
-                            作用域
+                            {t('tableScope')}
                         </th>
                         <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            操作
+                            {t('tableAction')}
                         </th>
                     </tr>
                 </thead>
@@ -50,21 +53,21 @@ const VariableTable = ({ variables, onEdit, onDelete }) => {
                                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                                     : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
                                     }`}>
-                                    {variable.Target}
+                                    {variable.Target === 'User' ? t('userScope') : t('systemScope')}
                                 </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button
                                     onClick={() => onEdit(variable)}
                                     className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
-                                    title="编辑"
+                                    title={t('edit')}
                                 >
                                     <Edit2 size={18} />
                                 </button>
                                 <button
                                     onClick={() => onDelete(variable)}
                                     className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                    title="删除"
+                                    title={t('delete')}
                                 >
                                     <Trash2 size={18} />
                                 </button>
@@ -74,7 +77,7 @@ const VariableTable = ({ variables, onEdit, onDelete }) => {
                     {variables.length === 0 && (
                         <tr>
                             <td colSpan="4" className="px-6 py-10 text-center text-gray-500 dark:text-gray-400">
-                                没有找到匹配的环境变量
+                                {t('noVariables')}
                             </td>
                         </tr>
                     )}
