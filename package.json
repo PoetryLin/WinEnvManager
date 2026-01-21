@@ -34,6 +34,9 @@
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": true
     },
+    "portable": {
+      "requestExecutionLevel": "admin"
+    },
     "directories": {
       "output": "dist-electron"
     }
