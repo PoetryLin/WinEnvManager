@@ -33,7 +33,31 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    createWindow();
+    // Check for Administrator privileges on Windows
+    if (process.platform === 'win32') {
+        const { exec } = require('child_process');
+        exec('net session', function (err, stdout, stderr) {
+            if (err) {
+                // 'net session' failed, meaning we don't have admin privileges
+                console.log('Not running as Admin. Relaunching...');
+
+                if (app.isPackaged) {
+                    // In production, relaunch the executable with RunAs
+                    const { spawn } = require('child_process');
+                    spawn('powershell.exe', ['Start-Process', `"${process.execPath}"`, '-Verb', 'RunAs'], { detached: true });
+                    app.quit();
+                    return;
+                } else {
+                    // In dev mode, just log a warning (or we could try to elevate, but it's messy for terminals)
+                    console.warn('WARNING: Application is not running as Administrator. System variables may not be writable.');
+                }
+            }
+            // If admin (or not Windows), proceed to create window
+            createWindow();
+        });
+    } else {
+        createWindow();
+    }
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

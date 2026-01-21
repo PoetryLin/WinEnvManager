@@ -28,6 +28,12 @@
       "node_modules/**/*",
       "frontend/dist/**/*"
     ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    },
     "directories": {
       "output": "dist-electron"
     }
